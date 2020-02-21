@@ -15,6 +15,8 @@ import com.dmelechow.data.model.Album
 import com.dmelechow.data.model.AlbumArtist
 import com.dmelechow.data.model.Resource
 import com.dmelechow.di.injectModules
+import com.dmelechow.presentation.MainActivity
+import com.dmelechow.presentation.artist.ArtistFragment
 import com.dmelechow.presentation.base.viewholder.AlbumListenerAdapter
 import kotlinx.android.synthetic.main.search_artist_fragment.*
 import org.koin.androidx.viewmodel.ext.viewModel
@@ -121,6 +123,12 @@ class AlbumArtistFragment : Fragment() {
                 } else {
                     tempAlbum = album
                     requestPermission()
+                }
+            }
+
+            override fun onClickAlbumItemListener(album: Album) {
+                if (activity is MainActivity) {
+                    (activity as MainActivity).attachFragment(ArtistFragment.newInstance(album))
                 }
             }
         })

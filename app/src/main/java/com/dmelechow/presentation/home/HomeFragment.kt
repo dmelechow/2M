@@ -18,6 +18,7 @@ import com.dmelechow.presentation.MainActivity
 import com.dmelechow.presentation.albumartist.AlbumAdapter
 import com.dmelechow.presentation.albumartist.AlbumAdapterData
 import com.dmelechow.presentation.albumartist.VIEW_STATE_ALBUM_REMOVE
+import com.dmelechow.presentation.artist.ArtistFragment
 import com.dmelechow.presentation.base.viewholder.AlbumRemoveListenerAdapter
 import com.dmelechow.presentation.searh.SearchArtistFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -102,6 +103,12 @@ class HomeFragment : Fragment() {
             override fun onRemoveListener(album: Album) {
                 viewModel.removeSavedAlbum(album)
                 adapter.remove(album)
+            }
+
+            override fun onClickAlbumItemListener(album: Album) {
+                if (activity is MainActivity) {
+                    (activity as MainActivity).attachFragment(ArtistFragment.newInstance(album))
+                }
             }
         })
         layoutManager = LinearLayoutManager(activity)

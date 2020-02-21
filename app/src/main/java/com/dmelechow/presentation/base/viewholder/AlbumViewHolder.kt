@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.dmelechow.R
 import com.dmelechow.data.model.Album
+import com.dmelechow.presentation.base.OnClickAlbumItem
 import com.dmelechow.utils.ImageLoader
 import kotlinx.android.synthetic.main.item_album_remove_view_adapter.view.*
 
@@ -15,6 +16,7 @@ class AlbumViewHolder constructor(itemView: View) : ViewHolder<Album>(itemView) 
     private val nameView: TextView = itemView.name_album_view
     private val imageAlbumView: AppCompatImageView = itemView.image_album_view
     private val saveButton: Button = itemView.remove_button
+    private val container: View = itemView.container
 
     private var albumListenerAdapter: AlbumListenerAdapter? = null
 
@@ -27,6 +29,12 @@ class AlbumViewHolder constructor(itemView: View) : ViewHolder<Album>(itemView) 
         if (data.image != null && data.image!!.isNotEmpty()) {
             ImageLoader.load(itemView.context, data.image!![data.image!!.size - 1].text, imageAlbumView)
         }
+
+        container.setOnClickListener {
+            albumListenerAdapter?.onClickAlbumItemListener(data)
+        }
+
+
         saveButton.setOnClickListener {
             albumListenerAdapter?.onSaveListener(data)
         }
@@ -38,7 +46,7 @@ class AlbumViewHolder constructor(itemView: View) : ViewHolder<Album>(itemView) 
 
 }
 
-interface AlbumListenerAdapter {
+interface AlbumListenerAdapter: OnClickAlbumItem {
     fun onSaveListener(album: Album)
 }
 

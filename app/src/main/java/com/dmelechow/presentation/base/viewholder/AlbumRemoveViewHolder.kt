@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.dmelechow.R
 import com.dmelechow.data.model.Album
+import com.dmelechow.presentation.base.OnClickAlbumItem
 import com.dmelechow.utils.ImageLoader
 import kotlinx.android.synthetic.main.item_album_remove_view_adapter.view.*
 
@@ -15,6 +16,7 @@ class AlbumRemoveViewHolder constructor(itemView: View) : RecyclerView.ViewHolde
     private val nameView: TextView = itemView.name_album_view
     private val imageAlbumView: AppCompatImageView = itemView.image_album_view
     private val removeButton: Button = itemView.remove_button
+    private val container: View = itemView.container
 
     private var albumListenerAdapter: AlbumRemoveListenerAdapter? = null
 
@@ -27,6 +29,11 @@ class AlbumRemoveViewHolder constructor(itemView: View) : RecyclerView.ViewHolde
         if (data.image != null && data.image!!.isNotEmpty()) {
             ImageLoader.load(itemView.context, data.image!![data.image!!.size - 1].text, imageAlbumView)
         }
+
+        container.setOnClickListener {
+            albumListenerAdapter?.onClickAlbumItemListener(data)
+        }
+
         removeButton.setOnClickListener {
             albumListenerAdapter?.onRemoveListener(data)
         }
@@ -38,7 +45,7 @@ class AlbumRemoveViewHolder constructor(itemView: View) : RecyclerView.ViewHolde
 
 }
 
-interface AlbumRemoveListenerAdapter {
+interface AlbumRemoveListenerAdapter: OnClickAlbumItem {
     fun onRemoveListener(album: Album)
 }
 
